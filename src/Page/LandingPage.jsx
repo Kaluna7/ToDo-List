@@ -1,6 +1,15 @@
 import book from '../assets/book.jpg';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
+
+  const navigate = useNavigate();
+
+  const goToLogin = () => {
+    navigate("/login")
+  }
+
+
   return (
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
       <div className="grid grid-cols-2 gap-[150px] justify-items-center items-center">
@@ -18,7 +27,7 @@ export default function LandingPage() {
             <br />
             responsibilities.
           </p>
-          <button style={{ backgroundColor: "#76DE37" }} className="px-4 py-2 rounded w-[310px]">Get Started</button>
+          <button style={{ backgroundColor: "#76DE37" }} className="px-4 py-2 rounded w-[310px]" onClick={goToLogin}>Get Started</button>
           <p>Already have an account? <a className='cursor-pointer'>Sign In</a></p>
           </div>
         </section>
