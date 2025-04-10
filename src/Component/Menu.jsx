@@ -3,9 +3,7 @@ import MenuList from "./MenuList";
 import MenuTask from "./MenuTask";
 import UpComing from "./UpComing";
 import Greeting from "./Greeting";
-import { DataMenu } from "./DataMenu";
-
-
+import { DataMenu } from "./Data/DataMenu";
 
 
 export default function Menu(){
@@ -25,9 +23,9 @@ export default function Menu(){
                 <p className="font-bold">Task</p>
                 <div className="flex flex-col gap-3">
                 <MenuTask isSelected={selectedMenu === 'upcoming'} onPress={() => handlePress('upcoming')} icon1={"➤"} label1={" Upcoming"}/>
-                <MenuTask icon2={"☰"} label2={" Today"}/>
-                <MenuTask icon3={"🗓"} label3={" Calender"}/>
-                <MenuTask icon4={"📝"} label4={" Sticky Wall"}/>
+                <MenuTask isSelected={selectedMenu === 'today'} onPress={() => handlePress('today')} icon2={"☰"} label2={" Today"}/>
+                <MenuTask isSelected={selectedMenu === 'calender'} onPress={() => handlePress('calender')} icon3={"🗓"} label3={" Calender"}/>
+                <MenuTask isSelected={selectedMenu === 'stickywall'} onPress={() => handlePress('stickywall')} icon4={"📝"} label4={" Sticky Wall"}/>
                 </div>
             </div>
             <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
@@ -40,7 +38,7 @@ export default function Menu(){
                 </div>
             </div>
 
-            <p><a>Log Out</a></p>
+            <p><a className="cursor-pointer">🚪Log Out</a></p>
         </div>
 
         <div div className="bg-[#F4F4F4] h-[700px] w-[980px] rounded-4xl">
