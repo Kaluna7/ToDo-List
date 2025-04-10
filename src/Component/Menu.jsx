@@ -41,9 +41,7 @@ export default function Menu(){
             <p><a className="cursor-pointer">🚪Log Out</a></p>
         </div>
 
-        <div div className="bg-[#F4F4F4] h-[700px] w-[980px] rounded-4xl">
         {!selectedMenu ? <Greeting /> : DataMenu[selectedMenu].component}
-        </div>
         </aside>
     );
 }
