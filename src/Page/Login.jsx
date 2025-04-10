@@ -6,10 +6,13 @@ export default function Login() {
   const navigate = useNavigate()
 
   const goToSignUp = () =>{
-    navigate("signin")
+    navigate("/signup")
   }
 
 
+  const goToHome = () =>{
+    navigate("/home")
+  }
 
   return (
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
@@ -18,9 +21,9 @@ export default function Login() {
         <section className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
           <div className='grid grid-rows-[repeat(6,70px)] items-center justify-self-start ml-[27%] mt-[20%]'>
               <h1 className='font-bold text-left'>Sign In</h1>
-          <input type='text' className='border border-black rounded-lg w-[310px] h-[30px]' value={"kaluna@gmail.com"}></input>
-          <input type='text' className='border border-black rounded-lg w-[310px] h-[30px]' value={"12345"}></input>
-          <button style={{ backgroundColor: "#76DE37" }} className="px-4 py-2 rounded w-[310px]">Sign In</button>
+          <input type='email' className='border border-black rounded-lg w-[310px] h-[30px]' placeholder='kaluna@gmail.com'></input>
+          <input type='password' className='border border-black rounded-lg w-[310px] h-[30px]' placeholder='12345'></input>
+          <button style={{ backgroundColor: "#76DE37" }} className="px-4 py-2 rounded w-[310px]" onClick={goToHome}>Sign In</button>
 
           <div className="flex items-center gap-4">
             <div className="flex-grow border-t border-black w-33"></div>
