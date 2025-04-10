@@ -22,10 +22,10 @@ export default function Menu(){
             <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
                 <p className="font-bold">Task</p>
                 <div className="flex flex-col gap-3">
-                <MenuTask isSelected={selectedMenu === 'upcoming'} onPress={() => handlePress('upcoming')} icon1={"➤"} label1={" Upcoming"}/>
-                <MenuTask isSelected={selectedMenu === 'today'} onPress={() => handlePress('today')} icon2={"☰"} label2={" Today"}/>
-                <MenuTask isSelected={selectedMenu === 'calender'} onPress={() => handlePress('calender')} icon3={"🗓"} label3={" Calender"}/>
-                <MenuTask isSelected={selectedMenu === 'stickywall'} onPress={() => handlePress('stickywall')} icon4={"📝"} label4={" Sticky Wall"}/>
+                <MenuTask isSelected={selectedMenu === 'upcoming'} onPress={() => handlePress('upcoming')} icon1={"➤ "} label1={"Upcoming"}/>
+                <MenuTask isSelected={selectedMenu === 'today'} onPress={() => handlePress('today')} icon2={"☰ "} label2={"Today"}/>
+                <MenuTask isSelected={selectedMenu === 'calender'} onPress={() => handlePress('calender')} icon3={"🗓 "} label3={"Calender"}/>
+                <MenuTask isSelected={selectedMenu === 'stickywall'} onPress={() => handlePress('stickywall')} icon4={"📝 "} label4={"Sticky Wall"}/>
                 </div>
             </div>
             <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
