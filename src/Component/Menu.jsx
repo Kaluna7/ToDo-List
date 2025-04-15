@@ -1,6 +1,6 @@
 import { useState } from "react";
-import MenuList from "./MenuList";
-import MenuTask from "./MenuTask";
+import MenuList from "./utils/MenuList";
+import MenuTask from "./utils/MenuTask";
 import UpComing from "./UpComing";
 import Greeting from "./Greeting";
 import { DataMenu } from "./Data/DataMenu";
