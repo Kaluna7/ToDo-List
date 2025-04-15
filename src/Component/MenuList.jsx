@@ -1,5 +1,3 @@
-import {AiFillForward} from "react-icons/ai";
-import {AiFillHome} from "react-icons/ai";
 export default function MenuList({label1,label2,label3,label4}){
     return(
         <>
