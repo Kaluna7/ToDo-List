@@ -8,7 +8,7 @@ import { DataMenu } from "./Data/DataMenu";
 
 export default function Menu(){
 
-    const[selectedMenu,setSelectedMenu] = useState();
+    const [selectedMenu,setSelectedMenu] = useState();
     function handlePress(selectedMenu){
         setSelectedMenu(selectedMenu);
         console.log(selectedMenu)
