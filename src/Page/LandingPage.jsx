@@ -52,7 +52,7 @@ export default function LandingPage() {
         <img id='book-picture' src={book} className="w-[650px] h-[700px] rounded-4xl ml-[20%]" />
         <section id='landing-des' className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
           <div className='grid grid-rows-[repeat(3,120px)] items-center justify-items-center  mt-[20%]'>
-          <h1>ToDo Py</h1>
+          <h1 style={{fontFamily: 'Lobster'}}>ToDo Py</h1>
           <p>
             Stay Organized, Get Things Done: Your
             <br /> Ultimate To-Do List App.

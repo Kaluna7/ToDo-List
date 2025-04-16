@@ -28,6 +28,7 @@ export default function Calender(){
         <div className="border mt-6 w-[980px] h-[563px] rounded-4xl">
 
         </div>
+        {!selectedDay ? handleClickDay('day') : undefined}
       </div>
 
     );

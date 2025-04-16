@@ -36,7 +36,7 @@ export default function Login() {
         <img src={book} className="w-[650px] h-[700px] rounded-4xl ml-[20%]" />
         <section id='signin-card' className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
           <div className='grid grid-rows-[repeat(6,70px)] items-center justify-self-start ml-[27%] mt-[20%]'>
-              <h1 className='font-bold text-left'>Sign In</h1>
+              <h1 className='font-bold text-left' style={{fontFamily: 'Lobster'}}>Sign In</h1>
           <input type='email' className='border border-black rounded-lg w-[310px] h-[30px]' placeholder='kaluna@gmail.com'></input>
           <input type='password' className='border border-black rounded-lg w-[310px] h-[30px]' placeholder='12345'></input>
           <button style={{ backgroundColor: "#76DE37" }} className="px-4 py-2 rounded w-[310px]" onClick={goToHome}>Sign In</button>

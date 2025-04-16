@@ -23,7 +23,7 @@ export default function SignUp() {
         <img src={book} className="w-[650px] h-[700px] rounded-4xl ml-[20%]" />
         <section id='signup-card' className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
         <div className="grid items-center justify-center mt-[14%] ml-[2%]">
-  <h1 className="font-bold text-left text-2xl mb-4">Sign Up</h1>
+  <h1 className="font-bold text-left text-2xl mb-4" style={{fontFamily: 'Lobster'}}>Sign Up</h1>
 
   <form method='POST' className="grid gap-4">
     <input
