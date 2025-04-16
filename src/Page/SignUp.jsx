@@ -1,11 +1,27 @@
+import { useEffect } from 'react';
 import book from '../assets/book.jpg';
+import gsap from 'gsap';
+
 
 export default function SignUp() {
+
+  useEffect(() =>{
+    gsap.fromTo('#signup-card',{
+      rotateY : '-100',
+      opacity: 0
+    },
+  {
+    duration: 2,
+    rotateY : 0,
+    opacity: 1
+  })
+  },[]);
+
   return (
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
       <div className="grid grid-cols-2 gap-[150px] justify-items-center items-center">
         <img src={book} className="w-[650px] h-[700px] rounded-4xl ml-[20%]" />
-        <section className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
+        <section id='signup-card' className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
         <div className="grid items-center justify-center mt-[14%] ml-[2%]">
   <h1 className="font-bold text-left text-2xl mb-4">Sign Up</h1>
 

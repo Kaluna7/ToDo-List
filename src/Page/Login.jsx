@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import book from '../assets/book.jpg';
+import { useEffect } from 'react';
+import gsap from 'gsap';
 
 export default function Login() {
 
@@ -8,6 +10,18 @@ export default function Login() {
   const goToSignUp = () =>{
     navigate("/signup")
   }
+
+  useEffect(() =>{
+    gsap.fromTo('#signin-card',{
+      rotateY : '100',
+      opacity: 0
+    },
+  {
+    duration: 2,
+    rotateY : 0,
+    opacity: 1
+  })
+  },[]);
 
   
 
@@ -20,7 +34,7 @@ export default function Login() {
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
       <div className="grid grid-cols-2 gap-[150px] justify-items-center items-center">
         <img src={book} className="w-[650px] h-[700px] rounded-4xl ml-[20%]" />
-        <section className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
+        <section id='signin-card' className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl ">
           <div className='grid grid-rows-[repeat(6,70px)] items-center justify-self-start ml-[27%] mt-[20%]'>
               <h1 className='font-bold text-left'>Sign In</h1>
           <input type='email' className='border border-black rounded-lg w-[310px] h-[30px]' placeholder='kaluna@gmail.com'></input>

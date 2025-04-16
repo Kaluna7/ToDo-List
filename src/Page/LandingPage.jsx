@@ -25,15 +25,11 @@ export default function LandingPage() {
 
   gsap.fromTo('#btn-started',{
     opacity:0,
-    scale:0,
-    rotation:720
   },
   {
     delay:1,
     duration:2,
     opacity:1,
-    scale:1,
-    rotation:0
   });
 },[])
 
