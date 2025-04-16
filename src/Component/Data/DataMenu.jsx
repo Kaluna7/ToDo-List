@@ -5,19 +5,19 @@ import Today from "../Today";
 import UpComing from "../UpComing";
 
 export const DataMenu = {
-  upcoming:{
-    component: <UpComing />
+  upcoming: {
+    component: <UpComing />,
   },
-  greeting:{
-    component: <Greeting/>
+  greeting: {
+    component: <Greeting />,
   },
-  calender:{
-    component: <Calender/>
+  calender: {
+    component: <Calender />,
   },
-  stickywall:{
-    component: <StickyWall/>
+  stickywall: {
+    component: <StickyWall />,
   },
-  today:{
-    component: <Today/>
-  }
+  today: {
+    component: <Today />,
+  },
 };

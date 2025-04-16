@@ -1,5 +1,3 @@
-export default function StickyWall(){
-    return(
-        <h1>Sticky Wall</h1>
-    );
+export default function StickyWall() {
+  return <h1>Sticky Wall</h1>;
 }
