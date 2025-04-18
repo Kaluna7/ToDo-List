@@ -1,8 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import book from "../assets/book.jpg";
 import gsap from "gsap";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export default function SignUp() {
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
+
   useEffect(() => {
     gsap.fromTo(
       "#signup-card",
@@ -17,6 +26,26 @@ export default function SignUp() {
       },
     );
   }, []);
+
+  const goToLogin = () =>{
+    navigate("/login");
+  }
+
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try{
+      const res = await axios.post("http://localhost:5000/signup",{
+        email,
+        first_name : firstName,
+        last_name : lastName,
+        password,
+      });
+      alert(res.data.message);
+    } catch {
+      alert ("Signup failed!")
+    }
+  };
 
   return (
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
@@ -34,31 +63,40 @@ export default function SignUp() {
               Sign Up
             </h1>
 
-            <form method="POST" className="grid gap-4">
+            <form onSubmit={handleSignUp} className="grid gap-4">
               <input
                 type="text"
                 className="border border-black rounded-lg w-[310px] h-[40px] px-2"
                 placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
               <input
                 type="text"
                 className="border border-black rounded-lg w-[310px] h-[40px] px-2"
                 placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
               <input
                 type="email"
                 className="border border-black rounded-lg w-[310px] h-[40px] px-2"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"
                 className="border border-black rounded-lg w-[310px] h-[40px] px-2"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="submit"
                 style={{ backgroundColor: "#76DE37" }}
                 className="px-4 py-2 rounded w-[310px] font-semibold"
+                onClick={goToLogin}
               >
                 Sign Up
               </button>

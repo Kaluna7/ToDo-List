@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import book from "../assets/book.jpg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import gsap from "gsap";
+import axios from "axios";
+
 
 export default function Login() {
   const navigate = useNavigate();
+  const [email ,setEmail] = useState();
+  const [password ,setPassword] = useState();
 
   const goToSignUp = () => {
     navigate("/signup");
@@ -29,6 +33,20 @@ export default function Login() {
     navigate("/home");
   };
 
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try{
+      const res = await axios.post("http://localhost:5000/signup",{
+        email,
+        password,
+      });
+      alert(res.data.message);
+    } catch {
+      alert ("Signup failed!")
+    }
+  };
+
   return (
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
       <div className="grid grid-cols-2 gap-[150px] justify-items-center items-center">
@@ -48,11 +66,15 @@ export default function Login() {
               type="email"
               className="border border-black rounded-lg w-[310px] h-[30px]"
               placeholder="kaluna@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             ></input>
             <input
               type="password"
               className="border border-black rounded-lg w-[310px] h-[30px]"
               placeholder="12345"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             ></input>
             <button
               style={{ backgroundColor: "#76DE37" }}
