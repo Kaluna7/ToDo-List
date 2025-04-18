@@ -115,7 +115,7 @@ export default function SignUp() {
               </div>
               <p>
                 Already have an account?{" "}
-                <a className="cursor-pointer text-blue-600 hover:underline">
+                <a className="cursor-pointer text-blue-600 hover:underline" onClick={goToLogin}>
                   Log in
                 </a>
               </p>

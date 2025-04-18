@@ -33,10 +33,10 @@ export default function Menu() {
               label1={"Upcoming"}
             />
             <MenuTask
-              isSelected={selectedMenu === "today"}
-              onPress={() => handlePress("today")}
+              isSelected={selectedMenu === "newtask"}
+              onPress={() => handlePress("newtask")}
               icon2={"☰ "}
-              label2={"Today"}
+              label2={"New Task"}
             />
             <MenuTask
               isSelected={selectedMenu === "calender"}

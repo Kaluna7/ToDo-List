@@ -1,7 +1,7 @@
 import Calender from "../Calender";
 import Greeting from "../Greeting";
 import StickyWall from "../StickyWall";
-import Today from "../Today";
+import NewTask from "../NewTask";
 import UpComing from "../UpComing";
 
 export const DataMenu = {
@@ -17,7 +17,7 @@ export const DataMenu = {
   stickywall: {
     component: <StickyWall />,
   },
-  today: {
-    component: <Today />,
+  newtask: {
+    component: <NewTask/>,
   },
 };

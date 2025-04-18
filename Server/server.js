@@ -16,7 +16,7 @@ app.use(cors({
 
 // Middleware untuk session
 app.use(session({
-  secret: "kaluna-rahasia",
+  secret: "Secret",
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -71,13 +71,37 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/home", (req, res) => {
-  if (req.session.loggedin) {
-    res.send("Welcome back, " + req.session.email);
-  } else {
-    res.status(401).send("Please login first");
+
+app.post('/addtoday', async (req ,res) => {
+    const { email , title , description} = req.body;
+
+    try {
+      const result = await pool.query(
+        'INSERT INTO tasks (user_email , title , description) VALUES ($1, $2 , $3) RETURNING * ',[email , title ,description]
+      );
+      res.json({message : 'Added Successfuly' , todo: result.rows[0] });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({err : 'Failed To Add Task!'});
+    }
+});
+
+
+app.get('/todaytask' , async (req , res) => {
+  const {email} = req.query;
+
+  try{
+    const result = await pool.query(
+      'SELECT * FROM tasks WHERE user_email = $1',
+      [email]
+    );
+    res.json(result.rows);
+  } catch (err){
+    console.error(err);
+    res.status(500).json({err : 'Failed To Get Today Task!'})
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

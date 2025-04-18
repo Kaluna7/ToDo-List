@@ -14,6 +14,7 @@ export default function Login() {
     navigate("/signup");
   };
 
+
   useEffect(() => {
     gsap.fromTo(
       "#signin-card",
