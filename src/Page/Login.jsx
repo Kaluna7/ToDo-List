@@ -29,82 +29,91 @@ export default function Login() {
     );
   }, []);
 
-  const goToHome = () => {
-    navigate("/home");
-  };
 
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try{
-      const res = await axios.post("http://localhost:5000/signup",{
+  
+    try {
+      const response = await axios.post('http://localhost:5000/login', {
         email,
-        password,
+        password
+      }, {
+        withCredentials: true
       });
-      alert(res.data.message);
-    } catch {
-      alert ("Signup failed!")
+  
+      console.log(response.data);
+      navigate('/home')
+      alert('Login Successfully!')
+    } catch (error) {
+      console.error('Login failed:', error.response?.data || error.message);
     }
   };
+  
 
   return (
     <div className="bg-[#C4C4C4] min-h-screen min-w-screen flex items-center justify-center">
-      <div className="grid grid-cols-2 gap-[150px] justify-items-center items-center">
-        <img src={book} className="w-[650px] h-[700px] rounded-4xl ml-[20%]" />
-        <section
-          id="signin-card"
-          className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl "
+  <div className="grid grid-cols-2 gap-24 items-center">
+    <img src={book} className="w-[650px] h-[700px] rounded-4xl" />
+
+    <section
+      id="signin-card"
+      className="bg-[#FFF9F9] w-[650px] h-[700px] rounded-4xl flex flex-col items-center justify-center"
+    >
+      <div className="w-[310px]">
+        <h1
+          className="font-bold text-left text-4xl mb-10"
+          style={{ fontFamily: "Lobster" }}
         >
-          <div className="grid grid-rows-[repeat(6,70px)] items-center justify-self-start ml-[27%] mt-[20%]">
-            <h1
-              className="font-bold text-left"
-              style={{ fontFamily: "Lobster" }}
-            >
-              Sign In
-            </h1>
-            <input
-              type="email"
-              className="border border-black rounded-lg w-[310px] h-[30px]"
-              placeholder="kaluna@gmail.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
-            <input
-              type="password"
-              className="border border-black rounded-lg w-[310px] h-[30px]"
-              placeholder="12345"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></input>
-            <button
-              style={{ backgroundColor: "#76DE37" }}
-              className="px-4 py-2 rounded w-[310px]"
-              onClick={goToHome}
-            >
-              Sign In
-            </button>
+          Sign In
+        </h1>
 
-            <div className="flex items-center gap-4">
-              <div className="flex-grow border-t border-black w-33"></div>
-              <span className="text-black">or</span>
-              <div className="flex-grow border-t border-black w-33"></div>
-            </div>
+        <form className="space-y-6" onSubmit={handleLogin}>
+          <input
+            type="email"
+            className="border border-black rounded-lg w-full h-10 px-3"
+            placeholder="kaluna@gmail.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            className="border border-black rounded-lg w-full h-10 px-3"
+            placeholder="12345"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="submit"
+            style={{ backgroundColor: "#76DE37" }}
+            className="px-4 py-2 rounded w-full text-white font-semibold"
+          >
+            Sign In
+          </button>
+        </form>
 
-            <div className="justify-self-center text-center">
-              <div className="flex row-2 items-center justify-center gap-20">
-                <button>Goggle</button>
-                <button>Facebook</button>
-              </div>
-              <p className="mt-5">
-                Don't have an account?{" "}
-                <a className="cursor-pointer" onClick={goToSignUp}>
-                  Sign up
-                </a>
-              </p>
-            </div>
+        <div className="flex items-center my-8">
+          <div className="flex-grow border-t border-black"></div>
+          <span className="mx-4 text-black">or</span>
+          <div className="flex-grow border-t border-black"></div>
+        </div>
+
+        <div className="text-center space-y-4">
+          <div className="flex justify-center gap-6">
+            <button className="border px-4 py-2 rounded">Google</button>
+            <button className="border px-4 py-2 rounded">Facebook</button>
           </div>
-        </section>
+          <p className="mt-5">
+            Don't have an account?{" "}
+            <a className="cursor-pointer text-blue-600 underline" onClick={goToSignUp}>
+              Sign up
+            </a>
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
+  </div>
+</div>
+
   );
 }
