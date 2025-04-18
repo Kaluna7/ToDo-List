@@ -72,7 +72,7 @@ app.post("/login", async (req, res) => {
 });
 
 
-app.post('/addtoday', async (req ,res) => {
+app.post('/addtask', async (req ,res) => {
     const { email , title , description} = req.body;
 
     try {
@@ -87,7 +87,7 @@ app.post('/addtoday', async (req ,res) => {
 });
 
 
-app.get('/todaytask' , async (req , res) => {
+app.get('/tasklist' , async (req , res) => {
   const {email} = req.query;
 
   try{
