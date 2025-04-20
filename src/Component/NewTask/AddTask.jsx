@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function AddTask() {
+export default function AddTask({show , onClose}) {
   const [addTask, setAddTask] = useState("");
 
   const handleNewTask = async (e) => {
@@ -22,8 +22,10 @@ export default function AddTask() {
     }
   };
 
+  if (!show) return null;
   return (
-    <div>
+    <div className="fixed inset-0  bg-opacity-0 flex items-center justify-center">
+      <div className="bg-[#C4C4C4] rounded-lg p-6 w-[600px] h-[400px]">
       <h2>Tambah To-do</h2>
       <form onSubmit={handleNewTask}>
         <input
@@ -33,7 +35,9 @@ export default function AddTask() {
           onChange={(e) => setAddTask(e.target.value)}
         />
         <button type="submit">Tambah</button>
+        <button onClick={onClose}>Close</button>
       </form>
+      </div>
     </div>
   );
 }
