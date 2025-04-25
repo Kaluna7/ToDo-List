@@ -44,12 +44,15 @@ export default function Login() {
       });
   
       console.log(response.data);
-      navigate('/home')
-      alert('Login Successfully!')
+      localStorage.setItem("email", response.data.email); 
+  
+      alert('Login Successfully!');
+      navigate('/home');
     } catch (error) {
       console.error('Login failed:', error.response?.data || error.message);
     }
   };
+  
   
 
   return (

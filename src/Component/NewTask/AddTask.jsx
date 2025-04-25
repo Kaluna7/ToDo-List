@@ -2,8 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function AddTask({show , onClose}) {
-  const [addTask, setAddTask] = useState();
-  const [ description , setDescription ] = useState();
+  const [addTask, setAddTask] = useState("");
+  const [ description , setDescription ] = useState("");
 
   const handleNewTask = async (e) => {
     e.preventDefault();
@@ -17,8 +17,11 @@ export default function AddTask({show , onClose}) {
         description : description
       });
 
-      alert("Added Successfully!:", res.data);
+      console.log("Added Successfully:", res.data);
+alert("Added Successfully!");
+
       setAddTask("");
+      setDescription("");
     } catch (err) {
       alert("Error Add Task!", err);
     }
@@ -46,7 +49,7 @@ export default function AddTask({show , onClose}) {
         />
         <div className="flex gap-30">
         <button type="submit">Tambah</button>
-        <button onClick={onClose}>Close</button>
+        <button type="button" onClick={onClose}>Close</button>
         </div>
       </form>
       </div>
