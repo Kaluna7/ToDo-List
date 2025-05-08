@@ -18,7 +18,7 @@ export default function AddTask({show , onClose}) {
       });
 
       console.log("Added Successfully:", res.data);
-alert("Added Successfully!");
+      alert("Added Successfully!");
 
       setAddTask("");
       setDescription("");
@@ -30,26 +30,26 @@ alert("Added Successfully!");
   if (!show) return null;
   return (
     <div className="fixed bg-opacity-0 flex items-center justify-center ml-50 mt-10">
-      <div className="grid grid-rows-[repeat(2,30px)] bg-[#C4C4C4] rounded-lg p- w-[600px] h-[400px] text-center">
-      <h2 className="font-extrabold text-[32px]">Tambah To-do</h2>
+      <div className="grid grid-rows-[repeat(2,30px)] bg-[#E3F2FD] rounded-4xl p- w-[500px] h-[400px] text-center">
+      <h2 className="font-extrabold text-[32px]">Create To-Do</h2>
       <form className="grid grid-rows-[repeat(4,70px)] gap-5 justify-center items-center mt-15" onSubmit={handleNewTask}>
         <input
-          className="border-2"
+          className="border border-gray-400 border-opacity-50 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
           type="text"
           placeholder="Title"
           value={addTask}
           onChange={(e) => setAddTask(e.target.value)}
         />
           <input
-          className="border-2"
+          className="border border-gray-400 border-opacity-50 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
           type="text"
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className="flex gap-30">
-        <button type="submit">Tambah</button>
-        <button type="button" onClick={onClose}>Close</button>
+        <button type="submit">Add</button>
+        <button type="button" onClick={onClose}>Exit</button>
         </div>
       </form>
       </div>
