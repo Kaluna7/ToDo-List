@@ -5,21 +5,23 @@ export default function UpComing() {
   const [tasks, setTasks] = useState([]);
 
   // Mengambil email dari localStorage
-  const email = localStorage.getItem("email"); 
+  const email = localStorage.getItem("email");
 
   // Membuat objek tanggal untuk hari ini, besok, dan minggu ini
   const today = new Date();
-  const todayString = today.toISOString().split("T")[0]; // 'YYYY-MM-DD'
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1); // Menambahkan 1 hari
-  const tomorrowString = tomorrow.toISOString().split("T")[0]; // 'YYYY-MM-DD'
+  const todayString = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`; // 'YYYY-MM-DD'
+
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Mengatur waktu ke tengah malam
+  const tomorrowString = `${tomorrow.getFullYear()}-${(tomorrow.getMonth() + 1).toString().padStart(2, '0')}-${tomorrow.getDate().toString().padStart(2, '0')}`; // 'YYYY-MM-DD'
 
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay()); // Minggu
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(startOfWeek.getDate() + 6); // Sabtu
-  const startOfWeekString = startOfWeek.toISOString().split("T")[0];
-  const endOfWeekString = endOfWeek.toISOString().split("T")[0];
+  const startOfWeekString = startOfWeek.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
+  const endOfWeekString = endOfWeek.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
 
   useEffect(() => {
     // Mengecek jika email sudah ada di localStorage
@@ -37,22 +39,23 @@ export default function UpComing() {
     }
   }, [email]);
 
-  // Memfilter tugas yang sesuai dengan tanggal
-  const todayTasks = tasks.filter((task) => {
-    const taskDate = new Date(task.duedate).toISOString().split("T")[0];
-    return taskDate === todayString;
-  });
-
- const tomorrowTasks = tasks.filter((task) => {
-  const taskDate = new Date(task.duedate).toISOString().split("T")[0]; // Pastikan ini adalah format yang sesuai
-  console.log("taskDate:", taskDate); // Log taskDate untuk debugging
-  return taskDate === tomorrowString;
+ const todayTasks = tasks.filter((task) => {
+  const taskDate = new Date(task.duedate);  // Ambil tanggal langsung dari database
+  const taskDateString = taskDate.toISOString().split("T")[0]; // Gunakan format ISO 'YYYY-MM-DD'
+  return taskDateString === todayString;
 });
 
+  const tomorrowTasks = tasks.filter((task) => {
+    const taskDate = new Date(task.duedate);
+    const taskDateString = taskDate.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
+    return taskDateString === tomorrowString;
+  });
 
+  // Filter untuk tugas minggu ini
   const weekTasks = tasks.filter((task) => {
-    const taskDate = new Date(task.duedate).toISOString().split("T")[0];
-    return taskDate >= startOfWeekString && taskDate <= endOfWeekString;
+    const taskDate = new Date(task.duedate);
+    const taskDateString = taskDate.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
+    return taskDateString >= startOfWeekString && taskDateString <= endOfWeekString;
   });
 
   // Fungsi untuk merender tugas
