@@ -74,11 +74,11 @@ app.post("/login", async (req, res) => {
 
 
 app.post('/addtask', async (req ,res) => {
-    const { email , title , description} = req.body;
+    const { email , title , description, duedate} = req.body;
 
     try {
       const result = await pool.query(
-        'INSERT INTO tasks (user_email , title , description) VALUES ($1, $2 , $3) RETURNING * ',[email , title ,description]
+        'INSERT INTO tasks (user_email , title , description, duedate) VALUES ($1, $2 , $3, $4) RETURNING * ',[email , title ,description, duedate]
       );
       res.json({message : 'Added Successfuly' , todo: result.rows[0] });
     } catch (err) {
