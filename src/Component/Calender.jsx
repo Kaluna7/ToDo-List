@@ -7,14 +7,11 @@ export default function Calender() {
   const [tasks, setTasks] = useState([]);
   const email = localStorage.getItem("email");
 
-  // helper untuk pad angka jadi 2 digit
   const pad = (n) => n.toString().padStart(2, "0");
 
-  // tanggal hari ini (lokal) dalam 'YYYY-MM-DD'
   const today = new Date();
   const todayString = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
 
-  // hitung minggu (Minggu—Sabtu) pada minggu ini
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
   const endOfWeek = new Date(startOfWeek);
@@ -30,25 +27,21 @@ export default function Calender() {
       .catch((err) => console.error("Gagal mengambil data:", err));
   }, [email]);
 
-  // helper: dari ISO‐string ke 'YYYY-MM-DD' sesuai zona lokal
   const localDateString = (iso) => {
     const d = new Date(iso);
     return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
   };
 
-  // Day
   const todayTasks = tasks.filter((t) =>
     t.duedate && localDateString(t.duedate) === todayString
   );
 
-  // Week
   const weekTasks = tasks.filter((t) => {
     if (!t.duedate) return false;
     const d = localDateString(t.duedate);
     return d >= weekStartString && d <= weekEndString;
   });
 
-  // Month
   const monthTasks = tasks.filter((t) => {
     if (!t.duedate) return false;
     const d = new Date(t.duedate);

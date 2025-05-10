@@ -5,10 +5,8 @@ export default function UpComing() {
   const [tasks, setTasks] = useState([]);
   const email = localStorage.getItem("email");
 
-  // helper untuk pad angka jadi 2 digit
   const pad = (n) => n.toString().padStart(2, "0");
 
-  // buat YYYY‑MM‑DD untuk hari ini & besok
   const today = new Date();
   const todayString = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
 
@@ -16,7 +14,6 @@ export default function UpComing() {
   tomorrow.setDate(today.getDate() + 1);
   const tomorrowString = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth()+1)}-${pad(tomorrow.getDate())}`;
 
-  // awal & akhir minggu (Minggu–Sabtu)
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
   const endOfWeek = new Date(startOfWeek);
@@ -32,13 +29,11 @@ export default function UpComing() {
       .catch((err) => console.error(err));
   }, [email]);
 
-  // helper untuk ambil YYYY-MM-DD di zona waktu lokal
   const localDateString = (isoDate) => {
     const d = new Date(isoDate);
     return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
   };
 
-  // filter berdasarkan localDateString
   const todayTasks = tasks.filter((t) => localDateString(t.duedate) === todayString);
   const tomorrowTasks = tasks.filter((t) => localDateString(t.duedate) === tomorrowString);
   const weekTasks = tasks.filter((t) => {
