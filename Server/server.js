@@ -122,7 +122,41 @@ app.get('/todaytask', async (req, res) => {
   }
 });
 
+app.delete('/tasklist/:title', async (req, res) => {
+  if (!req.session.loggedin) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
+  const title = decodeURIComponent(req.params.title);
+  const userEmail = req.session.email;
+
+  try {
+    const result = await pool.query(
+      'DELETE FROM tasks WHERE title = $1 AND user_email = $2 RETURNING *',
+      [title, userEmail]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.json({ 
+      message: "Task deleted successfully",
+      deletedTask: result.rows[0]
+    });
+    
+  } catch (err) {
+    console.error("Error deleting task:", err);
+    res.status(500).json({ message: "Failed to delete task" });
+  }
+});
+
+app.get('/check-session', (req, res) => {
+  res.json({
+    loggedin: req.session.loggedin || false,
+    email: req.session.email || null
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

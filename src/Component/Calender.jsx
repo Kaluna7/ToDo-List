@@ -19,6 +19,23 @@ export default function Calender() {
   const weekStartString = `${startOfWeek.getFullYear()}-${pad(startOfWeek.getMonth()+1)}-${pad(startOfWeek.getDate())}`;
   const weekEndString   = `${endOfWeek.getFullYear()}-${pad(endOfWeek.getMonth()+1)}-${pad(endOfWeek.getDate())}`;
 
+useEffect(() => {
+  const checkSession = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/check-session', {
+        withCredentials: true
+      });
+      if (!response.data.loggedin) {
+        localStorage.removeItem('email');
+        window.location.href = '/login';
+      }
+    } catch (err) {
+      console.error('Session check failed:', err);
+    }
+  };
+  checkSession();
+}, []);
+
   useEffect(() => {
     if (!email) return;
     axios
@@ -26,6 +43,38 @@ export default function Calender() {
       .then((res) => setTasks(res.data))
       .catch((err) => console.error("Gagal mengambil data:", err));
   }, [email]);
+
+ const handleTaskComplete = async (taskTitle) => {
+  const isConfirmed = window.confirm("Apakah tugas ini sudah selesai?");
+  
+  if (!isConfirmed) return;
+
+  try {
+    await axios.delete(
+      `http://localhost:5000/tasklist/${encodeURIComponent(taskTitle)}`, 
+      {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('sessionToken')}` // Jika menggunakan token
+        }
+      }
+    );
+    
+    setTasks(prevTasks => 
+      prevTasks.filter(task => task.title !== taskTitle)
+    );
+    
+  } catch (err) {
+    console.error("Gagal menghapus tugas:", err);
+    if (err.response?.status === 401) {
+      alert('Session expired, please login again');
+      localStorage.removeItem('email');
+      window.location.href = '/login';
+    } else {
+      alert("Gagal menghapus tugas");
+    }
+  }
+};
 
   const localDateString = (iso) => {
     const d = new Date(iso);
@@ -49,56 +98,83 @@ export default function Calender() {
            d.getMonth() === today.getMonth();
   });
 
- const renderTasks = (list) =>
-   list.length === 0
-    ? <div className="h-full flex flex-col items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-        </svg>
-        <p className="text-gray-400 text-lg">Tidak ada tugas</p>
-      </div>
-    : <div className="grid gap-3 max-h-[calc(563px-2rem)] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 scrollbar-thumb-rounded">
-        {list.map((t) => (
-          <div
-            key={t.id}
-             className="group relative p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border-l-4 border-blue-500 mr-2" 
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">{t.title}</h3>
-                <p className="text-gray-600 text-sm mb-2">{t.description}</p>
-                <div className="flex items-center text-gray-400 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>{new Date(t.duedate).toLocaleDateString('id-ID', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}</span>
+  const renderTasks = (list) =>
+    list.length === 0
+      ? <div className="h-full flex flex-col items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+          </svg>
+          <p className="text-gray-400 text-lg">Tidak ada tugas</p>
+        </div>
+      : <div className="grid gap-3 max-h-[calc(563px-2rem)] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 scrollbar-thumb-rounded">
+          {list.map((t) => (
+            <div
+              key={t.id}
+              className="group relative p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border-l-4 border-blue-500 mr-2"
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex items-start gap-3 flex-1">
+                  {/* Checkbox Area */}
+                  <div className="mt-1 relative">
+                   <input
+  type="checkbox"
+  className="w-5 h-5 rounded border-2 border-gray-300 
+           checked:border-blue-500 checked:bg-blue-500 
+           focus:ring-0 focus:ring-offset-0 cursor-pointer 
+           transition-colors duration-200"
+  onChange={() => handleTaskComplete(t.title)}
+/>
+                    <svg
+                      className="absolute top-0 left-0 w-5 h-5 pointer-events-none 
+                        opacity-0 [input:checked+&]:opacity-100 transition-opacity duration-200"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-1">{t.title}</h3>
+                    <p className="text-gray-600 text-sm mb-2">{t.description}</p>
+                    <div className="flex items-center text-gray-400 text-sm">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span>{new Date(t.duedate).toLocaleDateString('id-ID', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}</span>
+                    </div>
+                  </div>
                 </div>
+
+                <button className="p-2 hover:bg-gray-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                  </svg>
+                </button>
               </div>
-              <button className="p-2 hover:bg-gray-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                </svg>
-              </button>
+              
+              {/* Badge Priority */}
+              {t.priority && (
+                <span className={`absolute -top-2 -right-2 px-2 py-1 rounded-full text-xs font-medium ${
+                  t.priority === 'high' ? 'bg-red-100 text-red-700' :
+                  t.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                  'bg-green-100 text-green-700'
+                }`}>
+                  {t.priority.charAt(0).toUpperCase() + t.priority.slice(1)}
+                </span>
+              )}
             </div>
-            
-            {/* Badge Priority */}
-            {t.priority && (
-              <span className={`absolute -top-2 -right-2 px-2 py-1 rounded-full text-xs font-medium ${
-                t.priority === 'high' ? 'bg-red-100 text-red-700' :
-                t.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                'bg-green-100 text-green-700'
-              }`}>
-                {t.priority.charAt(0).toUpperCase() + t.priority.slice(1)}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>;
+          ))}
+        </div>;
 
   return (
     <div className="flex flex-col">
