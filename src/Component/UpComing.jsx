@@ -3,110 +3,77 @@ import axios from "axios";
 
 export default function UpComing() {
   const [tasks, setTasks] = useState([]);
-
-  // Mengambil email dari localStorage
   const email = localStorage.getItem("email");
 
-  // Membuat objek tanggal untuk hari ini, besok, dan minggu ini
+  // helper untuk pad angka jadi 2 digit
+  const pad = (n) => n.toString().padStart(2, "0");
+
+  // buat YYYY‑MM‑DD untuk hari ini & besok
   const today = new Date();
-  const todayString = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`; // 'YYYY-MM-DD'
+  const todayString = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
 
-  const tomorrow = new Date();
+  const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-  tomorrow.setHours(0, 0, 0, 0); // Mengatur waktu ke tengah malam
-  const tomorrowString = `${tomorrow.getFullYear()}-${(tomorrow.getMonth() + 1).toString().padStart(2, '0')}-${tomorrow.getDate().toString().padStart(2, '0')}`; // 'YYYY-MM-DD'
+  const tomorrowString = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth()+1)}-${pad(tomorrow.getDate())}`;
 
+  // awal & akhir minggu (Minggu–Sabtu)
   const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay()); // Minggu
+  startOfWeek.setDate(today.getDate() - today.getDay());
   const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 6); // Sabtu
-  const startOfWeekString = startOfWeek.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
-  const endOfWeekString = endOfWeek.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  const startOfWeekString = `${startOfWeek.getFullYear()}-${pad(startOfWeek.getMonth()+1)}-${pad(startOfWeek.getDate())}`;
+  const endOfWeekString   = `${endOfWeek.getFullYear()}-${pad(endOfWeek.getMonth()+1)}-${pad(endOfWeek.getDate())}`;
 
   useEffect(() => {
-    // Mengecek jika email sudah ada di localStorage
-    if (email) {
-      axios
-        .get(`http://localhost:5000/tasklist?email=${email}`) // Ganti dengan URL API yang sesuai
-        .then((res) => {
-          setTasks(res.data); // Menyimpan data tugas dari API ke state
-        })
-        .catch((err) => {
-          console.error("Gagal mengambil data:", err);
-        });
-    } else {
-      console.error("Email tidak ditemukan di localStorage.");
-    }
+    if (!email) return;
+    axios
+      .get(`http://localhost:5000/tasklist?email=${email}`)
+      .then((res) => setTasks(res.data))
+      .catch((err) => console.error(err));
   }, [email]);
 
- const todayTasks = tasks.filter((task) => {
-  const taskDate = new Date(task.duedate);  // Ambil tanggal langsung dari database
-  const taskDateString = taskDate.toISOString().split("T")[0]; // Gunakan format ISO 'YYYY-MM-DD'
-  return taskDateString === todayString;
-});
+  // helper untuk ambil YYYY-MM-DD di zona waktu lokal
+  const localDateString = (isoDate) => {
+    const d = new Date(isoDate);
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  };
 
-  const tomorrowTasks = tasks.filter((task) => {
-    const taskDate = new Date(task.duedate);
-    const taskDateString = taskDate.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
-    return taskDateString === tomorrowString;
+  // filter berdasarkan localDateString
+  const todayTasks = tasks.filter((t) => localDateString(t.duedate) === todayString);
+  const tomorrowTasks = tasks.filter((t) => localDateString(t.duedate) === tomorrowString);
+  const weekTasks = tasks.filter((t) => {
+    const d = localDateString(t.duedate);
+    return d >= startOfWeekString && d <= endOfWeekString;
   });
 
-  // Filter untuk tugas minggu ini
-  const weekTasks = tasks.filter((task) => {
-    const taskDate = new Date(task.duedate);
-    const taskDateString = taskDate.toLocaleDateString('en-CA'); // Format 'YYYY-MM-DD'
-    return taskDateString >= startOfWeekString && taskDateString <= endOfWeekString;
-  });
-
-  // Fungsi untuk merender tugas
-  const renderTasks = (taskList) => (
-    <>
-      {taskList.length === 0 ? (
-        <p className="text-gray-500">Tidak ada tugas.</p>
-      ) : (
-        taskList.map((task) => (
-          <div key={task.id} className="p-2 border-b">
-            <strong>{task.title}</strong>
-            <p>{task.description}</p>
-            <small className="text-gray-400">Due: {task.duedate}</small>
+  const renderTasks = (list) =>
+    list.length === 0
+      ? <p className="text-gray-500">Tidak ada tugas.</p>
+      : list.map((t) => (
+          <div key={t.id} className="p-2 border-b">
+            <strong>{t.title}</strong>
+            <p>{t.description}</p>
+            <small className="text-gray-400">Due: {localDateString(t.duedate)}</small>
           </div>
-        ))
-      )}
-    </>
-  );
+        ));
 
   return (
     <div className="flex flex-col">
-      <h1 style={{ fontSize: "45px" }} className="font-bold mb-6">
-        Upcoming
-      </h1>
+      <h1 className="font-bold mb-6" style={{ fontSize: 45 }}>Upcoming</h1>
 
       <div className="border-2 w-[980px] h-[320px] rounded-4xl p-6">
-        <div className="flex flex-col gap-3">
-          <h1 style={{ fontSize: "32px" }} className="font-bold">
-            Today
-          </h1>
-          {renderTasks(todayTasks)}
-        </div>
+        <h2 className="font-bold mb-2" style={{ fontSize: 32 }}>Today</h2>
+        {renderTasks(todayTasks)}
       </div>
 
       <div className="flex flex-row mt-[45px] gap-[40px]">
         <div className="border-2 w-[470px] h-[260px] rounded-4xl p-6">
-          <div className="flex flex-col gap-3">
-            <h1 style={{ fontSize: "32px" }} className="font-bold">
-              Tomorrow
-            </h1>
-            {renderTasks(tomorrowTasks)}
-          </div>
+          <h2 className="font-bold mb-2" style={{ fontSize: 32 }}>Tomorrow</h2>
+          {renderTasks(tomorrowTasks)}
         </div>
-
         <div className="border-2 w-[470px] h-[260px] rounded-4xl p-6">
-          <div className="flex flex-col gap-3">
-            <h1 style={{ fontSize: "32px" }} className="font-bold">
-              This Week
-            </h1>
-            {renderTasks(weekTasks)}
-          </div>
+          <h2 className="font-bold mb-2" style={{ fontSize: 32 }}>This Week</h2>
+          {renderTasks(weekTasks)}
         </div>
       </div>
     </div>

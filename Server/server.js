@@ -103,6 +103,26 @@ app.get('/tasklist' , async (req , res) => {
   }
 });
 
+app.get('/todaytask', async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const result = await pool.query(
+      // CURRENT_DATE adalah 'YYYY-MM-DD' pada timezone Postgres server
+      `SELECT * 
+         FROM tasks 
+        WHERE user_email = $1 
+          AND duedate = CURRENT_DATE`,
+      [email]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to get today's tasks!" });
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
