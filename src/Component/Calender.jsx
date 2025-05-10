@@ -5,63 +5,69 @@ import DayList from "./utils/DayList";
 export default function Calender() {
   const [selectedDay, setSelectedDay] = useState("day");
   const [tasks, setTasks] = useState([]);
+  const email = localStorage.getItem("email");
 
+  // helper untuk pad angka jadi 2 digit
+  const pad = (n) => n.toString().padStart(2, "0");
+
+  // tanggal hari ini (lokal) dalam 'YYYY-MM-DD'
   const today = new Date();
-  const todayString = today.toISOString().split("T")[0]; // 'YYYY-MM-DD'
+  const todayString = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
 
-  const email = localStorage.getItem("email"); // Mendapatkan email dari localStorage
+  // hitung minggu (Minggu—Sabtu) pada minggu ini
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  const weekStartString = `${startOfWeek.getFullYear()}-${pad(startOfWeek.getMonth()+1)}-${pad(startOfWeek.getDate())}`;
+  const weekEndString   = `${endOfWeek.getFullYear()}-${pad(endOfWeek.getMonth()+1)}-${pad(endOfWeek.getDate())}`;
 
   useEffect(() => {
-    if (email) {
-      axios
-        .get(`http://localhost:5000/tasklist?email=${email}`) // Ganti URL sesuai backend kamu
-        .then((res) => {
-          setTasks(res.data);
-        })
-        .catch((err) => {
-          console.error("Gagal mengambil data:", err);
-        });
-    }
-  }, [email]); // Menambahkan email sebagai dependency agar data diambil setiap kali email berubah
+    if (!email) return;
+    axios
+      .get(`http://localhost:5000/tasklist?email=${email}`)
+      .then((res) => setTasks(res.data))
+      .catch((err) => console.error("Gagal mengambil data:", err));
+  }, [email]);
 
-  const todayTasks = tasks.filter((task) => {
-  const taskDate = new Date(task.duedate).toISOString().split("T")[0]; // Mengambil hanya tanggal
-  return taskDate === todayString; // Bandingkan hanya tanggal
-});
+  // helper: dari ISO‐string ke 'YYYY-MM-DD' sesuai zona lokal
+  const localDateString = (iso) => {
+    const d = new Date(iso);
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  };
 
-
-  const weekTasks = tasks.filter((task) => {
-    const taskDate = new Date(task.duedate);
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay()); // Minggu
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // Sabtu
-    return taskDate >= startOfWeek && taskDate <= endOfWeek;
-  });
-
-  const monthTasks = tasks.filter((task) => {
-    const taskDate = new Date(task.duedate);
-    return (
-      taskDate.getMonth() === today.getMonth() &&
-      taskDate.getFullYear() === today.getFullYear()
-    );
-  });
-
-  const renderTasks = (taskList) => (
-    <>
-      {taskList.length === 0 ? (
-        <p className="text-gray-500">Tidak ada tugas.</p>
-      ) : (
-        taskList.map((task) => (
-          <div key={task.id} className="p-2 border-b">
-            <strong>{task.title}</strong>
-            <p>{task.description}</p>
-            <small className="text-gray-400">Due: {task.duedate}</small>
-          </div>
-        ))
-      )}
-    </>
+  // Day
+  const todayTasks = tasks.filter((t) =>
+    t.duedate && localDateString(t.duedate) === todayString
   );
+
+  // Week
+  const weekTasks = tasks.filter((t) => {
+    if (!t.duedate) return false;
+    const d = localDateString(t.duedate);
+    return d >= weekStartString && d <= weekEndString;
+  });
+
+  // Month
+  const monthTasks = tasks.filter((t) => {
+    if (!t.duedate) return false;
+    const d = new Date(t.duedate);
+    return d.getFullYear() === today.getFullYear() &&
+           d.getMonth() === today.getMonth();
+  });
+
+  const renderTasks = (list) =>
+    list.length === 0
+      ? <p className="text-gray-500">Tidak ada tugas.</p>
+      : list.map((t) => (
+          <div key={t.id} className="p-2 border-b">
+            <strong>{t.title}</strong>
+            <p>{t.description}</p>
+            <small className="text-gray-400">
+              Due: {localDateString(t.duedate)}
+            </small>
+          </div>
+        ));
 
   return (
     <div className="flex flex-col">
