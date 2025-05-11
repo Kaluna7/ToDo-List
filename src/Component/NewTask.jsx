@@ -4,7 +4,6 @@ import AddTask from "./NewTask/AddTask";
 export default function NewTask() {
 
   const [showAddTask , setAddTask] = useState(false);
-
   return (
     <div className="flex flex-col">
       <h1 className="mb-6">New Task</h1>
