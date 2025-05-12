@@ -1,4 +1,7 @@
-export default function AddStickyNote() {
+import { useState } from "react";
+import axios from "axios";
+
+export default function AddStickyNote({show , onClose}) {
      const [ addStickyNote , setAddStickyNote ] = useState("");
       const [ description , setDescription ] = useState("");
     
@@ -22,9 +25,15 @@ export default function AddStickyNote() {
         }
       }
     
-    
+          if (!show) return null;
     return(
-
-        <h1>Hello</h1>
+      <div className="" >
+      <form className="">
+        <input type="text" placeholder="Title" value={addStickyNote} />
+        <input type="text" placeholder="Description" value={description} />
+        <button onClick={handleAddNote}>Submit</button>
+        <button onClick={onClose}>Exit</button>
+      </form>
+      </div>
     );
 }
