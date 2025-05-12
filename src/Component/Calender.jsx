@@ -114,7 +114,6 @@ useEffect(() => {
             >
               <div className="flex justify-between items-start">
                 <div className="flex items-start gap-3 flex-1">
-                  {/* Checkbox Area */}
                   <div className="mt-1 relative">
                    <input
   type="checkbox"
@@ -154,12 +153,6 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
-
-                <button className="p-2 hover:bg-gray-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                  </svg>
-                </button>
               </div>
               
               {/* Badge Priority */}
