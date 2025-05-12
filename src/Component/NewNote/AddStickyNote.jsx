@@ -7,6 +7,7 @@ export default function AddStickyNote({show , onClose}) {
     
       const handleAddNote = async (e) => {
         e.preventDefault();
+        
         const email = localStorage.getItem("email");
     
         try{
@@ -29,8 +30,8 @@ export default function AddStickyNote({show , onClose}) {
     return(
       <div className="" >
       <form className="">
-        <input type="text" placeholder="Title" value={addStickyNote} />
-        <input type="text" placeholder="Description" value={description} />
+        <input type="text" placeholder="Title" value={addStickyNote} onChange={(e) => setAddStickyNote(e.target.value)} />
+        <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
         <button onClick={handleAddNote}>Submit</button>
         <button onClick={onClose}>Exit</button>
       </form>

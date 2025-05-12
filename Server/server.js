@@ -162,15 +162,15 @@ app.post('/sticky-note' , async (req , res) => {
 
   try {
     const result = await pool.query(
-      'INSERT INTO sticky_note ( user_email . title , description ) VALUES ($1 $2 $3) RETURNING * ',[email , title , description]
+      'INSERT INTO sticky_notes ( email , title , description ) VALUES ($1, $2, $3) RETURNING * ',[email , title , description]
     );
-    res.json({message : 'Added sticky note successfuly' , todo: result.rows[0] });
+    res.json({ message: 'Added sticky note successfully', todo: result.rows[0] });
 
   }catch (err) {
       console.error(err);
       res.status(500).json({err : 'Failed To Add Sticky Note!'});
     }
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
