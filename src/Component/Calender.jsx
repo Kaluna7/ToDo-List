@@ -154,17 +154,6 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              
-              {/* Badge Priority */}
-              {t.priority && (
-                <span className={`absolute -top-2 -right-2 px-2 py-1 rounded-full text-xs font-medium ${
-                  t.priority === 'high' ? 'bg-red-100 text-red-700' :
-                  t.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                  'bg-green-100 text-green-700'
-                }`}>
-                  {t.priority.charAt(0).toUpperCase() + t.priority.slice(1)}
-                </span>
-              )}
             </div>
           ))}
         </div>;

@@ -58,7 +58,6 @@ export default function Menu() {
             <MenuList label1={"Work"} />
             <MenuList label2={"Personal"} />
             <MenuList label3={"Study"} />
-            <MenuList label4={"Add new list"} />
           </div>
         </div>
 
