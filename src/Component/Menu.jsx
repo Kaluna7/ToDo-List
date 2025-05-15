@@ -21,15 +21,11 @@ export default function Menu() {
 
   return (
     <aside className="flex flex-row gap-[40px]">
-      <div className="grid grid-rows-[repeat(2,80px)] justify-center items-center h-[700px] w-[450px]  bg-[#F4F4F4] ml-6 rounded-4xl p-6">
+      <div className="grid grid-rows-[80px] justify-left items-center h-[700px] w-[450px]  bg-[#F4F4F4] ml-6 rounded-4xl p-6">
         <h1 style={{ fontSize: "38px" }} className="font-bold text-[10px]">
           Menu
         </h1>
-        <input
-          className="bg-[#EBEBEB] h-10 w-80 rounded-4xl"
-          type="search"
-          placeholder="🔍 Search..."
-        ></input>
+   
         <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
           <p className="font-bold">Task</p>
           <div className="flex flex-col gap-3">

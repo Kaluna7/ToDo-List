@@ -109,10 +109,6 @@ export default function SignUp() {
             </div>
 
             <div className="text-center">
-              <div className="flex items-center justify-center gap-10 mb-4">
-                <button className="border px-4 py-1 rounded">Google</button>
-                <button className="border px-4 py-1 rounded">Facebook</button>
-              </div>
               <p>
                 Already have an account?{" "}
                 <a className="cursor-pointer text-blue-600 hover:underline" onClick={goToLogin}>
