@@ -1,7 +1,6 @@
 import { useState } from "react";
 import MenuList from "./utils/MenuList";
 import MenuTask from "./utils/MenuTask";
-import UpComing from "./UpComing";
 import Greeting from "./Greeting";
 import { DataMenu } from "./Data/DataMenu";
 
@@ -55,9 +54,9 @@ export default function Menu() {
         <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
           <p className="font-bold">List</p>
           <div className="flex flex-col gap-3">
-            <MenuList label1={"Work"} />
-            <MenuList label2={"Personal"} />
-            <MenuList label3={"Study"} />
+            <MenuList onPress={() => handlePress("work")} isSelected={selectedMenu === "work"} label1={"Work"}/>
+            <MenuList onPress={() => handlePress("personal")} isSelected={selectedMenu === "personal"} label2={"Personal"} />
+            <MenuList onPress={() => handlePress("study")} isSelected={selectedMenu === "study"} label3={"Study"} />
           </div>
         </div>
 
