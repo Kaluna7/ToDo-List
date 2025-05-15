@@ -3,12 +3,20 @@ import MenuList from "./utils/MenuList";
 import MenuTask from "./utils/MenuTask";
 import Greeting from "./Greeting";
 import { DataMenu } from "./Data/DataMenu";
+import LandingPage from "../Page/LandingPage";
+import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
   const [selectedMenu, setSelectedMenu] = useState();
   function handlePress(selectedMenu) {
     setSelectedMenu(selectedMenu);
     console.log(selectedMenu);
+  }
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate("/");
   }
 
   return (
@@ -61,7 +69,7 @@ export default function Menu() {
         </div>
 
         <p>
-          <a className="cursor-pointer">🚪Log Out</a>
+          <a className="cursor-pointer" onClick={handleLogout}>🚪Log Out</a>
         </p>
       </div>
 
