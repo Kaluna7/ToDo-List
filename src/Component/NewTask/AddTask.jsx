@@ -32,7 +32,7 @@ export default function AddTask({show , onClose}) {
 
   if (!show) return null;
   return (
-    <div className="fixed bg-opacity-0 flex items-center justify-center ml-50 mt-10">
+    <div className="fixed bg-opacity-0 flex items-center justify-center ml-60 ">
       <div className="grid grid-rows-[repeat(2,30px)] bg-[#E3F2FD] rounded-4xl p- w-[500px] h-[400px] text-center">
       <h2 className="font-extrabold text-[32px]">Create To-Do</h2>
       <form className="grid grid-rows-[repeat(4,50px)] gap-5 justify-center items-center mt-15" onSubmit={handleNewTask}>
