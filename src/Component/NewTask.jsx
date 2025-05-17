@@ -18,8 +18,8 @@ export default function NewTask() {
   return (
     <div className="flex flex-col">
       <h1 className="mb-6">New Task</h1>
-      <div className="border w-[980px] h-[618px] rounded-4xl p-6 relative bg-[#B1C9EF]">
-            <div className="bg-[#8AAEE0] w-full h-100 justify-center absolute top-25 right-0 rounded-xlshadow-[10px_10px_10px_100px_rgba(0,0,0,0.25)] ">
+      <div className="border w-[980px] h-[618px] rounded-4xl relative bg-[#B1C9EF]">
+            <div className="bg-[#8AAEE0] w-230 h-100 justify-center ml-7 absolute top-25 rounded-[100px] ">
                <img src={task} id="task" className="w-100 h-100 right-0 absolute"></img>
                <AddTask show={showAddTask} onClose={() => {setAddTask(false)}}/>
                 <div className="">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import noTask from "../assets/noTask.jpg"
 export default function UpComing() {
   const [tasks, setTasks] = useState([]);
   const email = localStorage.getItem("email");
@@ -44,10 +44,8 @@ export default function UpComing() {
  const renderTasks = (list) =>
     list.length === 0
       ? <div className="h-full flex flex-col items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-          </svg>
-          <p className="text-gray-400 text-lg">Tidak ada tugas</p>
+          <img src={noTask} className="h-35 w-35 mb-4"/>
+          <p className="text-gray-400 text-lg">No goals yet. Great things start small.</p>
         </div>
       : <div className="grid gap-3 h-full overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 pr-2">
           {list.map((t) => (
