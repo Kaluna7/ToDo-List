@@ -44,7 +44,7 @@ export default function UpComing() {
  const renderTasks = (list) =>
     list.length === 0
       ? <div className="h-full flex flex-col items-center justify-center">
-          <img src={noTask} className="h-35 w-35 mb-4"/>
+          <img src={noTask} className="h-35 w-35 mb-6"/>
           <p className="text-gray-400 text-lg">No goals yet. Great things start small.</p>
         </div>
       : <div className="grid gap-3 h-full overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 pr-2">
