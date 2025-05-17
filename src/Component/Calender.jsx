@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DayList from "./utils/DayList";
+import noTask from "../assets/noTask.jpg";
 
 export default function Calender() {
   const [selectedDay, setSelectedDay] = useState("day");
@@ -101,10 +102,8 @@ useEffect(() => {
   const renderTasks = (list) =>
     list.length === 0
       ? <div className="h-full flex flex-col items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-          </svg>
-          <p className="text-gray-400 text-lg">Tidak ada tugas</p>
+          <img src={noTask} className="w-60 h-60 mb-6"/>
+          <p className="text-gray-400 text-lg">No goals yet. Great things start small.</p>
         </div>
       : <div className="grid gap-3 max-h-[calc(563px-2rem)] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 scrollbar-thumb-rounded">
           {list.map((t) => (
@@ -177,19 +176,19 @@ useEffect(() => {
       <div className="border mt-6 w-[980px] h-[563px] rounded-4xl p-4 overflow-y-auto">
         {selectedDay === "day" && (
           <>
-            <h2 className="text-lg font-semibold mb-2">Tasks for Today:</h2>
+            <h2 className="text-[28px] mt-6 mb-[-40px] font-semibold text-center">Tasks for Today :</h2>
             {renderTasks(todayTasks)}
           </>
         )}
         {selectedDay === "week" && (
           <>
-            <h2 className="text-lg font-semibold mb-2">Tasks for This Week:</h2>
+            <h2 className="text-[28px] mt-6 mb-[-40px] font-semibold text-center">Tasks for This Week :</h2>
             {renderTasks(weekTasks)}
           </>
         )}
         {selectedDay === "month" && (
           <>
-            <h2 className="text-lg font-semibold mb-2">Tasks for This Month:</h2>
+            <h2 className="text-[28px] mt-6 mb-[-40px] font-semibold text-center">Tasks for This Month :</h2>
             {renderTasks(monthTasks)}
           </>
         )}
