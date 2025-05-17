@@ -172,6 +172,51 @@ app.post('/sticky-note' , async (req , res) => {
     }
 });
 
+app.post('/addwork' , async (req , res) => {
+  const { email , title , description , time } = req.body;
+
+  try{ 
+    const result = await pool.query(
+      'INSERT INTO work ( email , title , description , time ) VALUES ($1, $2, $3 $4) RETURNING * ',[email , title , description , time]
+    );
+    res.json({ message: 'Added work successfully', todo: result.rows[0] });
+
+  }catch (err) {
+      console.error(err);
+      res.status(500).json({err : 'Failed To Add Work!'});
+    }
+    });
+
+    app.post('/addpersonal' , async (req , res) => {
+  const { email , title , description , time } = req.body;
+
+  try{ 
+    const result = await pool.query(
+      'INSERT INTO personal ( email , title , description , time ) VALUES ($1, $2, $3 $4) RETURNING * ',[email , title , description , time]
+    );
+    res.json({ message: 'Added personal successfully', todo: result.rows[0] });
+
+  }catch (err) {
+      console.error(err);
+      res.status(500).json({err : 'Failed To Add Personal!'});
+    }
+    });
+
+    app.post('/addstudy' , async (req , res) => {
+  const { email , title , description , time } = req.body;
+
+  try{ 
+    const result = await pool.query(
+      'INSERT INTO study ( email , title , description , time ) VALUES ($1, $2, $3 $4) RETURNING * ',[email , title , description , time]
+    );
+    res.json({ message: 'Added study successfully', todo: result.rows[0] });
+
+  }catch (err) {
+      console.error(err);
+      res.status(500).json({err : 'Failed To Add Study!'});
+    }
+    });
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
