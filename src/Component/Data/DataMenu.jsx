@@ -21,15 +21,15 @@ export const DataMenu = {
     component: <StickyWall />,
   },
   newtask: {
-    component: <NewTask/>,
+    component: <NewTask />,
   },
   study: {
-    component: <Study/>
+    component: <Study />,
   },
-  personal:{
-    component: <Personal/>
+  personal: {
+    component: <Personal />,
   },
-  work:{
-    component: <Work/>
-  }
+  work: {
+    component: <Work />,
+  },
 };

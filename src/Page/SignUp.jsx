@@ -4,7 +4,6 @@ import gsap from "gsap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 export default function SignUp() {
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
@@ -27,23 +26,22 @@ export default function SignUp() {
     );
   }, []);
 
-  const goToLogin = () =>{
+  const goToLogin = () => {
     navigate("/login");
-  }
-
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    try{
-      const res = await axios.post("http://localhost:5000/signup",{
+    try {
+      const res = await axios.post("http://localhost:5000/signup", {
         email,
-        first_name : firstName,
-        last_name : lastName,
+        first_name: firstName,
+        last_name: lastName,
         password,
       });
       alert(res.data.message);
     } catch {
-      alert ("Signup failed!")
+      alert("Signup failed!");
     }
   };
 
@@ -111,7 +109,10 @@ export default function SignUp() {
             <div className="text-center">
               <p>
                 Already have an account?{" "}
-                <a className="cursor-pointer text-blue-600 hover:underline" onClick={goToLogin}>
+                <a
+                  className="cursor-pointer text-blue-600 hover:underline"
+                  onClick={goToLogin}
+                >
                   Log in
                 </a>
               </p>

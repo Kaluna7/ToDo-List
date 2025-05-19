@@ -17,7 +17,7 @@ export default function Menu() {
 
   const handleLogout = () => {
     navigate("/");
-  }
+  };
 
   return (
     <aside className="flex flex-row gap-[40px]">
@@ -25,7 +25,7 @@ export default function Menu() {
         <h1 style={{ fontSize: "38px" }} className="font-bold text-[10px]">
           Menu
         </h1>
-   
+
         <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
           <p className="font-bold">Task</p>
           <div className="flex flex-col gap-3">
@@ -58,14 +58,28 @@ export default function Menu() {
         <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
           <p className="font-bold">List</p>
           <div className="flex flex-col gap-3">
-            <MenuList onPress={() => handlePress("work")} isSelected={selectedMenu === "work"} label1={"Work"}/>
-            <MenuList onPress={() => handlePress("personal")} isSelected={selectedMenu === "personal"} label2={"Personal"} />
-            <MenuList onPress={() => handlePress("study")} isSelected={selectedMenu === "study"} label3={"Study"} />
+            <MenuList
+              onPress={() => handlePress("work")}
+              isSelected={selectedMenu === "work"}
+              label1={"Work"}
+            />
+            <MenuList
+              onPress={() => handlePress("personal")}
+              isSelected={selectedMenu === "personal"}
+              label2={"Personal"}
+            />
+            <MenuList
+              onPress={() => handlePress("study")}
+              isSelected={selectedMenu === "study"}
+              label3={"Study"}
+            />
           </div>
         </div>
 
         <p>
-          <a className="cursor-pointer" onClick={handleLogout}>🚪Log Out</a>
+          <a className="cursor-pointer" onClick={handleLogout}>
+            🚪Log Out
+          </a>
         </p>
       </div>
 
