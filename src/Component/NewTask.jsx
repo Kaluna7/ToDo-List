@@ -20,11 +20,7 @@ export default function NewTask() {
       <h1 className="mb-6">New Task</h1>
       <div className="w-[980px] h-[618px] rounded-4xl relative bg-[#B1C9EF]">
         <div className="bg-[#8AAEE0] w-230 h-100 justify-center ml-7 absolute top-25 rounded-[100px] shadow-xl">
-          <img
-            src={task}
-            id="task"
-            className="w-100 h-100 right-0 absolute"
-          />
+          <img src={task} id="task" className="w-100 h-100 right-0 absolute" />
           <AddTask
             show={showAddTask}
             onClose={() => {
