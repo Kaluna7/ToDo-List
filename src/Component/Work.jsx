@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AddWork from "./NewWork/AddWork";
+import AddWork from "./utils/AddWork";
 import axios from "axios";
 
 export default function Work() {

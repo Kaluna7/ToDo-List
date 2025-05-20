@@ -1,5 +1,5 @@
 import StickyWallPaper from "./utils/StickyWallPaper";
-import AddStickyNote from "./NewNote/AddStickyNote";
+import AddStickyNote from "./utils/AddStickyNote";
 import { useState } from "react";
 
 export default function StickyWall() {

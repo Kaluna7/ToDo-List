@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AddTask from "./NewTask/AddTask";
+import AddTask from "./utils/AddTask";
 import task from "../assets/task.png";
 import gsap from "gsap";
 
