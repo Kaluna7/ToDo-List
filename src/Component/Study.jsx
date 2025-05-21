@@ -8,7 +8,7 @@ export default function Study() {
   const [showStudy , setShowStudy ] = useState(false);
   const [studyList, setStudyList] = useState([]);
 
-  const getPersonalData = async () => {
+  const getStudyData = async () => {
     const email = localStorage.getItem("email");
 
     try {
@@ -23,7 +23,7 @@ export default function Study() {
   };
 
   useEffect(() => {
-    getPersonalData();
+    getStudyData();
   }, []);
 
 
@@ -32,7 +32,7 @@ export default function Study() {
     <div className="flex flex-col">
       <div className="flex flex-row space-x-140">
         <h1 className="mb-6">Study</h1>
-        <button style={{ background: "#76DE37" }} className="h-15 shadow-lg" onClick={() => setShowStudy(true)}>
+        <button style={{ background: "#76DE37" }} className="h-15 shadow-lg" onClick={() => setShowStudy(true)} onSucces={getStudyData()}>
           Add New Task
         </button>
       </div>
