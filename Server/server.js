@@ -234,6 +234,36 @@ app.get("/getwork", async (req, res) => {
   }
 });
 
+
+app.get("/getpersonal", async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const result = await pool.query(`SELECT * FROM personal WHERE email = $1`, [
+      email,
+    ]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to get today's tasks!" });
+  }
+});
+
+
+app.get("/getstudy", async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const result = await pool.query(`SELECT * FROM personal WHERE email = $1`, [
+      email,
+    ]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to get today's tasks!" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
