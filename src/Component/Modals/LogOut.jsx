@@ -1,6 +1,5 @@
 export default function LogOut({show , onClose}){
 
-
 if (!show) return null;
     return(
         <div className="">

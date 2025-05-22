@@ -42,9 +42,15 @@ export default function Work() {
         </div>
         <div className="">
           {workList.map((item, index) => (
-            <li key={index}>
-              <strong>{item.title}</strong> - {item.description} {item.time.slice(0,5)}
-            </li>
+            <div key={index} className="border w-fit h-[100px] flex flex-col">
+              <div className="text-red">
+              {item.title}  
+              <div className="">
+              {item.description} 
+              </div>
+              {item.time.slice(0,5)}
+              </div>
+            </div>
           ))}
         </div>
       </div>
