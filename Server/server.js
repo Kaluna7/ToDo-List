@@ -222,17 +222,21 @@ app.post("/addstudy", async (req, res) => {
 
 app.get("/getwork", async (req, res) => {
   const { email } = req.query;
-
   try {
-    const result = await pool.query(`SELECT * FROM work WHERE email = $1`, [
-      email,
-    ]);
+    const result = await pool.query(
+      "SELECT id, email, title, description, time FROM work WHERE email = $1 ORDER BY id ASC",
+      [email]
+    );
+    // Debug: lihat rows yang dikirim
+    console.log("GET /getwork → rows:", result.rows);
     res.json(result.rows);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to get today's tasks!" });
+    console.error("Error GET /getwork:", err);
+    res.status(500).json({ error: "Failed to get work." });
   }
 });
+
+
 
 
 app.get("/getpersonal", async (req, res) => {
@@ -249,7 +253,6 @@ app.get("/getpersonal", async (req, res) => {
   }
 });
 
-
 app.get("/getstudy", async (req, res) => {
   const { email } = req.query;
 
@@ -263,6 +266,50 @@ app.get("/getstudy", async (req, res) => {
     res.status(500).json({ error: "Failed to get today's tasks!" });
   }
 });
+
+
+app.delete("/deletework", async (req, res) => {
+  // Cek session
+  if (!req.session.loggedin) {
+    console.log("DELETE /deletework → session.loggedin = false");
+    return res.status(401).json({ message: "Unauthorized. Silakan login terlebih dahulu." });
+  }
+
+  const { id } = req.query;
+  const userEmail = req.session.email;
+
+  console.log("DELETE /deletework → menerima id:", id);
+  console.log("DELETE /deletework → session.email:", userEmail);
+
+  if (!id) {
+    console.log("DELETE /deletework → id tidak ada (400 Bad Request)");
+    return res.status(400).json({ message: "Parameter id diperlukan untuk menghapus work." });
+  }
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM work WHERE id = $1 AND email = $2 RETURNING *",
+      [id, userEmail]
+    );
+
+    if (result.rowCount === 0) {
+      console.log(`DELETE /deletework → tidak ada baris dengan id=${id} & email=${userEmail}`);
+      return res.status(404).json({ message: "Work tidak ditemukan atau bukan milik Anda." });
+    }
+
+    console.log("DELETE /deletework → berhasil dihapus:", result.rows[0]);
+    res.json({
+      message: "Work berhasil dihapus",
+      deletedWork: result.rows[0],
+    });
+  } catch (err) {
+    console.error("Error DELETE /deletework:", err);
+    res.status(500).json({ message: "Gagal menghapus work." });
+  }
+});
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

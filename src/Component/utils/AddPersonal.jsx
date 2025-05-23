@@ -24,10 +24,9 @@ export default function AddWork({ show, onClose, onAddSucces }) {
       setDescription("");
       setTime("");
 
-      if (onAddSucces){
+      if (onAddSucces) {
         onAddSucces();
       }
-
     } catch (err) {
       console.log("Error", err);
     }
