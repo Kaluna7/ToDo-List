@@ -350,7 +350,7 @@ app.delete("/deletestudy", async (req, res) => {
 });
 
 
-app.delete("/deletestudy", async (req, res) => {
+app.delete("/deletepersonal", async (req, res) => {
   if (!req.session.loggedin) {
     console.log("DELETE /deletestudy → session.loggedin = false");
     return res.status(401).json({ message: "Unauthorized. Silakan login terlebih dahulu." });
