@@ -44,8 +44,8 @@ export default function Study() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row space-x-140">
-        <h1 className="mb-6">Task List</h1>
+      <div className="flex flex-row space-x-166">
+        <h1 className="mb-6">Study</h1>
         <button
           className="h-15 shadow-lg"
           style={{ background: "#76DE37" }}
