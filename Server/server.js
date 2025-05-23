@@ -269,7 +269,6 @@ app.get("/getstudy", async (req, res) => {
 
 
 app.delete("/deletework", async (req, res) => {
-  // Cek session
   if (!req.session.loggedin) {
     console.log("DELETE /deletework → session.loggedin = false");
     return res.status(401).json({ message: "Unauthorized. Silakan login terlebih dahulu." });
@@ -310,6 +309,85 @@ app.delete("/deletework", async (req, res) => {
 
 
 
+
+app.delete("/deletestudy", async (req, res) => {
+  if (!req.session.loggedin) {
+    console.log("DELETE /deletestudy → session.loggedin = false");
+    return res.status(401).json({ message: "Unauthorized. Silakan login terlebih dahulu." });
+  }
+
+  const { id } = req.query;
+  const userEmail = req.session.email;
+
+  console.log("DELETE /deletework → menerima id:", id);
+  console.log("DELETE /deletework → session.email:", userEmail);
+
+  if (!id) {
+    console.log("DELETE /deletework → id tidak ada (400 Bad Request)");
+    return res.status(400).json({ message: "Parameter id diperlukan untuk menghapus work." });
+  }
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM study WHERE id = $1 AND email = $2 RETURNING *",
+      [id, userEmail]
+    );
+
+    if (result.rowCount === 0) {
+      console.log(`DELETE /deletework → tidak ada baris dengan id=${id} & email=${userEmail}`);
+      return res.status(404).json({ message: "Work tidak ditemukan atau bukan milik Anda." });
+    }
+
+    console.log("DELETE /deletework → berhasil dihapus:", result.rows[0]);
+    res.json({
+      message: "Work berhasil dihapus",
+      deletedWork: result.rows[0],
+    });
+  } catch (err) {
+    console.error("Error DELETE /deletework:", err);
+    res.status(500).json({ message: "Gagal menghapus work." });
+  }
+});
+
+
+app.delete("/deletestudy", async (req, res) => {
+  if (!req.session.loggedin) {
+    console.log("DELETE /deletestudy → session.loggedin = false");
+    return res.status(401).json({ message: "Unauthorized. Silakan login terlebih dahulu." });
+  }
+
+  const { id } = req.query;
+  const userEmail = req.session.email;
+
+  console.log("DELETE /deletework → menerima id:", id);
+  console.log("DELETE /deletework → session.email:", userEmail);
+
+  if (!id) {
+    console.log("DELETE /deletework → id tidak ada (400 Bad Request)");
+    return res.status(400).json({ message: "Parameter id diperlukan untuk menghapus work." });
+  }
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM personal WHERE id = $1 AND email = $2 RETURNING *",
+      [id, userEmail]
+    );
+
+    if (result.rowCount === 0) {
+      console.log(`DELETE /deletepersonal → tidak ada baris dengan id=${id} & email=${userEmail}`);
+      return res.status(404).json({ message: "Work tidak ditemukan atau bukan milik Anda." });
+    }
+
+    console.log("DELETE /deletepersonal → berhasil dihapus:", result.rows[0]);
+    res.json({
+      message: "Work berhasil dihapus",
+      deletedWork: result.rows[0],
+    });
+  } catch (err) {
+    console.error("Error DELETE /deletepersonal:", err);
+    res.status(500).json({ message: "Gagal menghapus work." });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
