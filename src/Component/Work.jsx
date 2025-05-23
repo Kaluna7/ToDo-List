@@ -6,7 +6,6 @@ export default function Work() {
   const [showWork, setShowWork] = useState(false);
   const [workList, setWorkList] = useState([]);
 
-  // Ambil daftar work dari server
   const getWorkData = async () => {
     const email = localStorage.getItem("email");
     if (!email) return;
@@ -14,7 +13,7 @@ export default function Work() {
     try {
       const res = await axios.get("http://localhost:5000/getwork", {
         params: { email },
-        withCredentials: true,  // sertakan cookie session
+        withCredentials: true,
       });
       console.log("Data from server:", res.data);
       setWorkList(res.data);
@@ -23,7 +22,6 @@ export default function Work() {
     }
   };
 
-  // Hapus satu work berdasarkan id
   const deleteWork = async (id) => {
     console.log("Trying to delete id:", id);
     if (!window.confirm("Are you sure delete this work?")) return;
@@ -31,7 +29,7 @@ export default function Work() {
     try {
       await axios.delete("http://localhost:5000/deletework", {
         params: { id },
-        withCredentials: true,  // sertakan cookie session
+        withCredentials: true,
       });
       getWorkData();
     } catch (err) {
@@ -45,9 +43,9 @@ export default function Work() {
   }, []);
 
   return (
-   <div className="flex flex-col">
+    <div className="flex flex-col">
       <div className="flex flex-row space-x-140">
-        <h1 className="mb-6">Daftar Tugas</h1>
+        <h1 className="mb-6">Task List</h1>
         <button
           className="h-15 shadow-lg"
           style={{ background: "#76DE37" }}
@@ -71,11 +69,10 @@ export default function Work() {
         <div className="flex flex-col space-y-4">
           {workList.length ? (
             workList.map((item) => {
-              // Debug: periksa properti item
               console.log("DEBUG item:", item);
               return (
                 <div
-                  key={item.id}  // gunakan id sebagai key
+                  key={item.id}
                   className="relative border border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-300 p-4"
                 >
                   <div className="flex justify-between items-center mb-2">
@@ -85,7 +82,7 @@ export default function Work() {
                     <button
                       onClick={() => deleteWork(item.id)}
                       className="text-red-500 hover:text-red-700 focus:outline-none"
-                      title="Hapus tugas"
+                      title="Delete"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +111,7 @@ export default function Work() {
               );
             })
           ) : (
-            <p className="text-center text-gray-700">Belum ada tugas.</p>
+            <p className="text-center text-gray-700">Don't Have Task.</p>
           )}
         </div>
       </div>

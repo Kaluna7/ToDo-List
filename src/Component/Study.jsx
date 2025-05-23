@@ -13,7 +13,7 @@ export default function Study() {
     try {
       const res = await axios.get("http://localhost:5000/getstudy", {
         params: { email },
-        withCredentials: true, 
+        withCredentials: true,
       });
       console.log("Data from server:", res.data);
       setWorkList(res.data);
@@ -43,9 +43,9 @@ export default function Study() {
   }, []);
 
   return (
-   <div className="flex flex-col">
+    <div className="flex flex-col">
       <div className="flex flex-row space-x-140">
-        <h1 className="mb-6">Daftar Tugas</h1>
+        <h1 className="mb-6">Task List</h1>
         <button
           className="h-15 shadow-lg"
           style={{ background: "#76DE37" }}
@@ -72,7 +72,7 @@ export default function Study() {
               console.log("DEBUG item:", item);
               return (
                 <div
-                  key={item.id} 
+                  key={item.id}
                   className="relative border border-gray-200 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-300 p-4"
                 >
                   <div className="flex justify-between items-center mb-2">
@@ -82,7 +82,7 @@ export default function Study() {
                     <button
                       onClick={() => deleteWork(item.id)}
                       className="text-red-500 hover:text-red-700 focus:outline-none"
-                      title="Hapus tugas"
+                      title="Delete"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@ export default function Study() {
               );
             })
           ) : (
-            <p className="text-center text-gray-700">Belum ada tugas.</p>
+            <p className="text-center text-gray-700">Don't Have Task.</p>
           )}
         </div>
       </div>

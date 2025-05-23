@@ -1,6 +1,5 @@
 import Calender from "../Calender";
 import Greeting from "../Greeting";
-import StickyWall from "../StickyWall";
 import NewTask from "../NewTask";
 import UpComing from "../UpComing";
 import Study from "../Study";
@@ -16,9 +15,6 @@ export const DataMenu = {
   },
   calender: {
     component: <Calender />,
-  },
-  stickywall: {
-    component: <StickyWall />,
   },
   newtask: {
     component: <NewTask />,

@@ -47,15 +47,9 @@ export default function Menu() {
               icon3={"🗓 "}
               label3={"Calender"}
             />
-            <MenuTask
-              isSelected={selectedMenu === "stickywall"}
-              onPress={() => handlePress("stickywall")}
-              icon4={"📝 "}
-              label4={"Sticky Wall"}
-            />
           </div>
         </div>
-        <div className="grid grid-rows-[repeat(4,40px)] justify-self-start">
+        <div className="grid grid-rows-[repeat(4,40px)] justify-self-start mt-[-50px]">
           <p className="font-bold">List</p>
           <div className="flex flex-col gap-3">
             <MenuList
